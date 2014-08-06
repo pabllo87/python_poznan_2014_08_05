@@ -1,6 +1,6 @@
 import unittest
 
-from RUL import RUL
+from RUL import RULdeque as RUL
 
 class RUL_Empty_Tests(unittest.TestCase):
     def setUp(self):
@@ -71,6 +71,21 @@ class RUL_Populated_plus_duplicated_item_inserted_Tests(unittest.TestCase):
         rul_list = [self.rul[i] for i in range(len(self.items))]
         test_items = ["item1", "item4", "item3", "item2"]
         self.assertEqual(test_items, rul_list)
+
+class RUL_bounded_testing(unittest.TestCase):
+    def setUp(self):
+        self.rul = RUL(limit=4)
+        self.items = ["item1", "item2", "item3", "item4"]
+        for item in self.items:
+            self.rul.add(item)
+
+    def test_inserting_at_limit_doesnt_change_size(self):
+        self.rul.add("item5")
+        self.assertEqual(4, self.rul.size())
+
+    def test_inserting_at_limit_move_to_front(self):
+        self.rul.add("item5")
+        self.assertEqual("item5", self.rul.first())
 
 if __name__ == "__main__":
     unittest.main()
