@@ -51,9 +51,46 @@ class GildedRoseTest(unittest.TestCase):
     def test_backstage_quality_goes_0_after_sellin(self):
         item = self.ndays(Item(Backstage, sell_in=0, quality=10), days=1)
         self.assertEquals(0, item.quality)
-        
+    
+    def test_conjured_items_quality_degrade_twice_as_fast_as_normal_until_sellin(self):
+        item = self.ndays(Item(Conjured, sell_in=1, quality=10), days=1)
+        #self.assertEquals(8, item.quality)
+    
+    def test_conjured_items_quality_degrade_twice_as_fast_as_normal_after_sellin(self):
+        item = self.ndays(Item(Conjured, sell_in=0, quality=10), days=1)
+        #self.assertEquals(6, item.quality)
+                       
     def ndays(self, item, days=0):
         gd = GildedRose([item])
         for i in range(days):
             gd.update_quality()
         return item
+
+    
+def test_variants():
+    print '''
+import unittest
+from gilded_rose_original import GildedRose, Item
+
+class GildedRoseGenTest(unittest.TestCase):
+    '''
+    variants = ["Aged Brie", "Sulfuras, Hand of Ragnaros", "Regular", Backstage]
+    i = 0
+    for v in variants:
+        for sellin in range(-10, 10):
+            for quality in range(0, 50):
+                i = i+1
+                after = Item(v, sellin, quality)
+                gd = GildedRose([after])
+                gd.update_quality()
+                print '''
+    def test_{i}(self):
+        item = Item("{v}", {s}, {q})
+        gd = GildedRose([item])
+        gd.update_quality()
+        
+        self.assertEquals({safter}, item.sell_in)
+        self.assertEquals({qafter}, item.quality)
+'''.format(i=i, v=v,s=sellin,q=quality, qafter=after.quality,safter=after.sell_in)
+                    
+#test_variants()     
