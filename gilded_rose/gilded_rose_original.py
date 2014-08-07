@@ -16,14 +16,16 @@ class GildedRose(object):
                     if item.sell_in < 6:
                         if item.quality < 50:
                             item.quality = item.quality + 1
+                item.sell_in = item.sell_in - 1
             elif item.name == "Aged Brie":
                 if item.quality < 50:
                     item.quality = item.quality + 1
-            else:
+                item.sell_in = item.sell_in - 1
+            elif item.name == "Sulfuras, Hand of Ragnaros":
+                pass
+            else: # regular
                 if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
+                    item.quality = item.quality - 1
                 item.sell_in = item.sell_in - 1
             if item.sell_in < 0:
                 if item.name != "Aged Brie":
