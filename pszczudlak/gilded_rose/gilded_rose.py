@@ -15,7 +15,7 @@ class GildedRose(object):
         item.quality = max(min(50, item.quality + val), 0)
 
     def update_ticket_item(self, item):
-        self._update_item(item, abs((item.sell_in - 1) / 5 - 3))
+        self._update_item(item, abs((item.sell_in - 1) // 5 - 3))
         if item.sell_in < 0:
             item.quality = 0
 
@@ -23,7 +23,7 @@ class GildedRose(object):
         for item in self.items:
             self.item_funcs.get(item.name, self._update_item)(item)
 
-    
+
 class Item:
     def __init__(self, name, sell_in, quality):
         self.name = name
