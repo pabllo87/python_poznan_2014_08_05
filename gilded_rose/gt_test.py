@@ -54,12 +54,12 @@ class GildedRoseTest(unittest.TestCase):
     
     def test_conjured_items_quality_degrade_twice_as_fast_as_normal_until_sellin(self):
         item = self.ndays(Item(Conjured, sell_in=1, quality=10), days=1)
-        #self.assertEquals(8, item.quality)
+        self.assertEquals(8, item.quality)
     
     def test_conjured_items_quality_degrade_twice_as_fast_as_normal_after_sellin(self):
         item = self.ndays(Item(Conjured, sell_in=0, quality=10), days=1)
-        #self.assertEquals(6, item.quality)
-                       
+        self.assertEquals(6, item.quality)
+              
     def ndays(self, item, days=0):
         gd = GildedRose([item])
         for i in range(days):
