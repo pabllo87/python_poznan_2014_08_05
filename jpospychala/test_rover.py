@@ -14,7 +14,10 @@ class RoverTest(unittest.TestCase):
         self.assertEquals('n', self.r.direction)
     
     def test_mars_rover_accepts_commands(self):
-        self.r.commands('rf')
+        try:
+            self.r.command('rf')
+        except Exception:
+            self.fail("Expected to issue commands")
 
     def test_mars_rover_accepts_only_chars_array(self):
         with self.assertRaises(TypeError):
@@ -25,53 +28,57 @@ class RoverTest(unittest.TestCase):
         self.assertEquals([0, 1], self.r.location)
     
     def test_that_moves_fwd_fwd(self):
-        self.r.commands('ff')
+        self.r.command('ff')
         self.assertEquals([0, 2], self.r.location)
         
     def test_that_cmd_right_turns_east(self):
-        self.r.commands('r')
+        self.r.command('r')
         self.assertEquals('e', self.r.direction)
     
     def test_that_cmd_rr_turns_south(self):
-        self.r.commands('rr')
+        self.r.command('rr')
         self.assertEquals('s', self.r.direction)
     
     def test_that_cmd_rrr_turns_west(self):
-        self.r.commands('rrr')
+        self.r.command('rrr')
         self.assertEquals('w', self.r.direction)
     
     def test_that_cmd_5x_r_turns_east(self):
-        self.r.commands('rrrrr')
+        self.r.command('rrrrr')
         self.assertEquals('e', self.r.direction)
 
     def test_that_cmd_l_turns_west(self):
-        self.r.commands('l')
+        self.r.command('l')
         self.assertEquals('w', self.r.direction)
     
     def test_that_cmd_5x_l_turns_west(self):
-        self.r.commands('lllll')
+        self.r.command('lllll')
         self.assertEquals('w', self.r.direction)
     
     def test_that_cmd_b_moves_backward(self):
-        self.r.commands('fb')
+        self.r.command('fb')
         self.assertEquals([0, 0], self.r.location)
     
     def test_that_moves_fwd_horizontally(self):
-        self.r.commands('rf')
+        self.r.command('rf')
         self.assertEquals([1, 0], self.r.location)
 
     def test_that_ffrff_moves_to_2_2(self):
-        self.r.commands('ffrff')
+        self.r.command('ffrff')
         self.assertEquals([2, 2], self.r.location)
 
+    def test_that_ffrff_moves_to_2_2(self):
+        self.r.command('frrf')
+        self.assertEquals([0, 0], self.r.location)
+
     def test_that_edges_are_wrapped(self):
-        self.r.commands(['f' for i in range(self.w.size)])
+        self.r.command('f'*self.w.size)
         self.assertEquals([0, 0], self.r.location)
     
     def test_that_cant_move_over_obstacle(self):
         self.w.put([1, 1], "tree")
         with self.assertRaises(MoveError):
-            self.r.commands("frf")
+            self.r.command("frf")
         self.assertEquals([0, 1], self.r.location)
     
 class WorldTest(unittest.TestCase):
