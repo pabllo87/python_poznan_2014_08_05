@@ -1,8 +1,8 @@
 from unittest import TestCase
 from alarm import Alarm, RealSensor
 
-#from unittest.mock import MagicMock, patch
-from mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
+#from mock import MagicMock, patch
 
 class FakeSensor:
     def __init__(self, val=42):
