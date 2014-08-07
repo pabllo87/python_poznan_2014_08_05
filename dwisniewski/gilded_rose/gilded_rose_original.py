@@ -9,15 +9,15 @@ class GildedRose(object):
         i.sell_in -= 1
 
     def _update_ab(self, i):
-        i.quality += 1 if i.quality < 50 else 0
-        i.quality += 1 if i.sell_in < 0 else 0
         i.sell_in -= 1
+        i.quality += 1 if i.quality < 50 else 0
+        i.quality += 1 if i.sell_in < 0 and i.quality < 50 else 0
 
     def _update_backstage(self, i):
         if i.sell_in > 0:
             i.quality += 1 if i.quality < 50 else 0
-            i.quality += 1 if i.sell_in < 11 else 0
-            i.quality += 1 if i.sell_in < 6 else 0
+            i.quality += 1 if i.sell_in < 11 and i.quality < 50 else 0
+            i.quality += 1 if i.sell_in < 6 and i.quality < 50 else 0
         else:
             i.quality = 0
         i.sell_in -= 1
